@@ -63,7 +63,7 @@ ShadowMap replicates a 5-step manual recon methodology:
 ## Usage
 
 ```bash
-git clone https://github.com/<your-username>/ShadowMap.git
+git clone https://github.com/Zeeshan2374/ShadowMap.git
 cd ShadowMap
 python3 shadowmap.py
 ```
