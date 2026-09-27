@@ -1,0 +1,19 @@
+# ShadowMap generated output — don't commit scan results
+shadowmap_*_results.json
+shadowmap_*_report.html
+dirfuzz_results.txt
+*.crtsh.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
