@@ -1,0 +1,113 @@
+{
+  "target": "www.denon.com",
+  "discovered_subdomains": [],
+  "status_results": [
+    {
+      "host": "www.denon.com",
+      "ip": "104.18.40.10",
+      "status": 301
+    }
+  ],
+  "fuzz_results": [
+    {
+      "path": "robots.txt",
+      "status": 200
+    },
+    {
+      "path": ".git",
+      "status": 403
+    },
+    {
+      "path": ".env",
+      "status": 403
+    },
+    {
+      "path": ".svn",
+      "status": 403
+    },
+    {
+      "path": ".htaccess",
+      "status": 403
+    },
+    {
+      "path": "wp-config.php",
+      "status": 403
+    },
+    {
+      "path": "admin",
+      "status": 404
+    },
+    {
+      "path": "login",
+      "status": 301
+    },
+    {
+      "path": "api",
+      "status": 404
+    },
+    {
+      "path": "api/v1",
+      "status": 404
+    },
+    {
+      "path": "config",
+      "status": 404
+    },
+    {
+      "path": "backup",
+      "status": 404
+    },
+    {
+      "path": "sitemap.xml",
+      "status": 404
+    },
+    {
+      "path": "health",
+      "status": 404
+    },
+    {
+      "path": "status",
+      "status": 404
+    },
+    {
+      "path": "version",
+      "status": 404
+    },
+    {
+      "path": "swagger",
+      "status": 404
+    },
+    {
+      "path": "swagger-ui",
+      "status": 404
+    },
+    {
+      "path": "graphql",
+      "status": 404
+    },
+    {
+      "path": "manifest.json",
+      "status": 404
+    },
+    {
+      "path": "static",
+      "status": 404
+    },
+    {
+      "path": "assets",
+      "status": 404
+    },
+    {
+      "path": "auth",
+      "status": 404
+    },
+    {
+      "path": "auth/login",
+      "status": 404
+    },
+    {
+      "path": ".well-known/security.txt",
+      "status": 404
+    }
+  ]
+}

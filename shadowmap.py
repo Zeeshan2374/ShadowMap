@@ -18,6 +18,7 @@ of credentials, no exploitation).
 """
 
 import json
+import os
 import random
 import shutil
 import socket
@@ -26,6 +27,7 @@ import time
 import urllib.request
 import urllib.error
 import urllib.parse
+from collections import defaultdict
 
 
 # --------------------------------------------------------------------------
@@ -774,6 +776,61 @@ def generate_html_report(target, scheme, status_results, fuzz_results, out_path)
 
 
 # --------------------------------------------------------------------------
+# Status-code folder export (one folder per status code, .txt inside)
+# --------------------------------------------------------------------------
+
+def save_status_code_folders(base_dir, status_results, fuzz_results):
+    """
+    Organizes results into a folder tree like:
+
+      <base_dir>/
+        Subdomain/
+          200/results.txt
+          301/results.txt
+          404/results.txt
+          ...
+        Directories/
+          200/results.txt
+          403/results.txt
+          ...
+
+    Each results.txt is plain text, one entry per line. For subdomains each
+    line is "domain , ip"; for directory fuzzing each line is the bare path.
+    Returns (subdomain_dir, directories_dir, list_of_status_codes_written).
+    """
+    subdomain_dir = os.path.join(base_dir, "Subdomain")
+    dirs_dir = os.path.join(base_dir, "Directories")
+
+    codes_written = set()
+
+    if status_results:
+        os.makedirs(subdomain_dir, exist_ok=True)
+        grouped = defaultdict(list)
+        for r in status_results:
+            grouped[r["status"]].append(f"{r['host']} , {r['ip']}")
+        for code, entries in grouped.items():
+            folder = os.path.join(subdomain_dir, str(code))
+            os.makedirs(folder, exist_ok=True)
+            with open(os.path.join(folder, "results.txt"), "w", encoding="utf-8") as f:
+                f.write("\n".join(sorted(entries)) + "\n")
+            codes_written.add(code)
+
+    if fuzz_results:
+        os.makedirs(dirs_dir, exist_ok=True)
+        grouped = defaultdict(list)
+        for r in fuzz_results:
+            grouped[r["status"]].append(r["path"])
+        for code, entries in grouped.items():
+            folder = os.path.join(dirs_dir, str(code))
+            os.makedirs(folder, exist_ok=True)
+            with open(os.path.join(folder, "results.txt"), "w", encoding="utf-8") as f:
+                f.write("\n".join(sorted(entries)) + "\n")
+            codes_written.add(code)
+
+    return subdomain_dir, dirs_dir, sorted(codes_written)
+
+
+# --------------------------------------------------------------------------
 # Main / orchestration
 # --------------------------------------------------------------------------
 
@@ -873,7 +930,21 @@ def main():
         ]
         print(make_table(["#", "Path", "Status", "Notes"], rows))
 
-    out_path = f"shadowmap_{in_scope_host.replace('.', '_')}_results.json"
+    # ------------------------------------------------------------------
+    # Save everything under one target-named folder:
+    #
+    #   <target>/
+    #     JSON/results.json
+    #     Subdomain/<code>/results.txt
+    #     Directories/<code>/results.txt
+    #     <target>_report.html   (optional)
+    # ------------------------------------------------------------------
+    target_dir = in_scope_host  # e.g. "coindcx.com"
+    os.makedirs(target_dir, exist_ok=True)
+
+    json_dir = os.path.join(target_dir, "JSON")
+    os.makedirs(json_dir, exist_ok=True)
+    out_path = os.path.join(json_dir, "results.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(
             {
@@ -887,14 +958,26 @@ def main():
         )
     print(f"\n{C.GREEN}Results auto-saved to {out_path}{C.RESET}")
 
+    subdomain_dir, dirs_dir, codes = save_status_code_folders(target_dir, status_results, fuzz_results)
+    if codes:
+        print(f"{C.GREEN}Sorted into status-code folders under {target_dir}/{C.RESET}")
+        if status_results:
+            print(f"  {C.GREY}{subdomain_dir}/<code>/results.txt{C.RESET}")
+        if fuzz_results:
+            print(f"  {C.GREY}{dirs_dir}/<code>/results.txt{C.RESET}")
+        print(f"  {C.GREY}Status codes found: {', '.join(str(c) for c in codes)}{C.RESET}")
+
     if ask_yes_no("Also save a modern HTML report?", "y"):
-        html_path = f"shadowmap_{in_scope_host.replace('.', '_')}_report.html"
+        html_dir = os.path.join(target_dir, "HTML")
+        os.makedirs(html_dir, exist_ok=True)
+        html_path = os.path.join(html_dir, f"{in_scope_host}_report.html")
         generate_html_report(in_scope_host, scheme, status_results, fuzz_results, html_path)
         print(f"{C.GREEN}HTML report saved to {html_path}{C.RESET} "
               f"{C.GREY}(open it in any browser){C.RESET}")
 
     hr("=")
-    print(f"{C.GREEN}{C.BOLD}All done!{C.RESET} Thanks for using {C.CYAN}{C.BOLD}ShadowMap{C.RESET}.")
+    print(f"{C.GREEN}{C.BOLD}All done!{C.RESET} Everything saved under "
+          f"{C.CYAN}{C.BOLD}{target_dir}/{C.RESET}. Thanks for using {C.CYAN}{C.BOLD}ShadowMap{C.RESET}.")
 
 
 if __name__ == "__main__":

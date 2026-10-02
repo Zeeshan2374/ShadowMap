@@ -1,0 +1,5 @@
+.env
+.git
+.htaccess
+.svn
+wp-config.php
