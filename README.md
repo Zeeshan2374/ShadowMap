@@ -8,10 +8,6 @@ Paste in a URL or domain and ShadowMap runs the full passive recon workflow
 automatically, showing progress live and producing clean table output plus
 JSON and HTML reports.
 
-![status](https://img.shields.io/badge/status-educational-blue)
-![python](https://img.shields.io/badge/python-3.8%2B-blue)
-![license](https://img.shields.io/badge/license-MIT-green)
-
 ---
 
 ## ⚠️ Authorized Use Only
@@ -63,7 +59,7 @@ ShadowMap replicates a 5-step manual recon methodology:
 ## Usage
 
 ```bash
-git clone https://github.com/<your-username>/ShadowMap.git
+git clone https://github.com/Zeeshan2374/ShadowMap.git
 cd ShadowMap
 python3 shadowmap.py
 ```
@@ -85,8 +81,39 @@ wordlist file (one path per line) instead of the small built-in default list.
 
 ## Output
 
-- `shadowmap_<host>_results.json` — structured results (subdomains, IPs, status codes, fuzz results)
-- `shadowmap_<host>_report.html` — a self-contained, modern dark-themed HTML report you can open in any browser or share with a teammate
+Everything from a scan is saved under **one folder named after the target**,
+right next to `shadowmap.py`:
+
+```
+<target>/
+  JSON/
+    results.json            ← full structured results (subdomains, IPs, status codes, fuzz results)
+  Subdomain/
+    200/results.txt         ← "domain , ip" — one per line
+    302/results.txt
+    401/results.txt
+    404/results.txt
+  Directories/
+    200/results.txt         ← bare path — one per line
+    403/results.txt
+  HTML/
+    <target>_report.html    ← optional: modern dark-themed HTML report
+```
+
+Example, scanning `coindcx.com`:
+
+```
+coindcx.com/
+  JSON/results.json
+  Subdomain/200/results.txt
+  Subdomain/302/results.txt
+  Directories/403/results.txt
+  HTML/coindcx.com_report.html
+```
+
+Each `results.txt` is plain text, grouped by HTTP status code — handy for
+quickly grepping "show me every 404" or feeding a specific status-code
+bucket into another tool.
 
 ## For instructors / classroom use
 
