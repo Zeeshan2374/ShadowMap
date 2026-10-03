@@ -1,15 +1,14 @@
 .well-known/security.txt
 admin
-api
-api/v1
-assets
 auth
 auth/login
 backup
 config
 graphql
 health
+login
 manifest.json
+robots.txt
 sitemap.xml
 static
 status

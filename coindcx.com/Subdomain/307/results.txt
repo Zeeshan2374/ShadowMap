@@ -1,0 +1,3 @@
+invite.coindcx.com , 44.252.253.233
+join.coindcx.com , 104.18.12.22
+share.coindcx.com , 104.18.12.22

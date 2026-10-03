@@ -1,0 +1,9 @@
+api.coindcx.com , 104.18.13.22
+careers.coindcx.com , 104.18.12.22
+coindcx.com , 104.18.12.22
+docs.coindcx.com , 104.18.12.22
+download.coindcx.com , 162.159.140.159
+info.coindcx.com , 104.18.12.22
+status.coindcx.com , 18.161.229.9
+support.coindcx.com , 104.18.13.22
+trade-chart.coindcx.com , 104.18.13.22

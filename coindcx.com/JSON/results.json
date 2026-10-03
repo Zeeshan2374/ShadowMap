@@ -1,0 +1,289 @@
+{
+  "target": "coindcx.com",
+  "discovered_subdomains": [
+    "account.coindcx.com",
+    "api.coindcx.com",
+    "blog.coindcx.com",
+    "careers.coindcx.com",
+    "cdn.coindcx.com",
+    "coindcx.com",
+    "docs.coindcx.com",
+    "download.coindcx.com",
+    "engage.coindcx.com",
+    "go.coindcx.com",
+    "helpdesk.coindcx.com",
+    "images.staging-api.coindcx.com",
+    "info.coindcx.com",
+    "invite.coindcx.com",
+    "join-pro.coindcx.com",
+    "join.coindcx.com",
+    "jupyter.coindcx.com",
+    "link.coindcx.com",
+    "maintenance.coindcx.com",
+    "marketing.coindcx.com",
+    "o309.e.engage.coindcx.com",
+    "otcdesk.coindcx.com",
+    "preproduction.coindcx.com",
+    "pro.coindcx.com",
+    "share.coindcx.com",
+    "staging-info.coindcx.com",
+    "status.coindcx.com",
+    "support.coindcx.com",
+    "trade-chart.coindcx.com",
+    "www.coindcx.com"
+  ],
+  "status_results": [
+    {
+      "host": "account.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 308
+    },
+    {
+      "host": "api.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 200
+    },
+    {
+      "host": "blog.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 302
+    },
+    {
+      "host": "careers.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 200
+    },
+    {
+      "host": "cdn.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 403
+    },
+    {
+      "host": "coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 200
+    },
+    {
+      "host": "docs.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 200
+    },
+    {
+      "host": "download.coindcx.com",
+      "ip": "162.159.140.159",
+      "status": 200
+    },
+    {
+      "host": "engage.coindcx.com",
+      "ip": "N/A",
+      "status": 0
+    },
+    {
+      "host": "go.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 301
+    },
+    {
+      "host": "helpdesk.coindcx.com",
+      "ip": "169.148.148.126",
+      "status": 302
+    },
+    {
+      "host": "images.staging-api.coindcx.com",
+      "ip": "108.158.251.58",
+      "status": 403
+    },
+    {
+      "host": "info.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 200
+    },
+    {
+      "host": "invite.coindcx.com",
+      "ip": "44.252.253.233",
+      "status": 307
+    },
+    {
+      "host": "join-pro.coindcx.com",
+      "ip": "199.36.158.100",
+      "status": 400
+    },
+    {
+      "host": "join.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 307
+    },
+    {
+      "host": "jupyter.coindcx.com",
+      "ip": "13.233.59.79",
+      "status": 0
+    },
+    {
+      "host": "link.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 404
+    },
+    {
+      "host": "maintenance.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 302
+    },
+    {
+      "host": "marketing.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 403
+    },
+    {
+      "host": "o309.e.engage.coindcx.com",
+      "ip": "149.72.161.157",
+      "status": 0
+    },
+    {
+      "host": "otcdesk.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 403
+    },
+    {
+      "host": "preproduction.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 403
+    },
+    {
+      "host": "pro.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 301
+    },
+    {
+      "host": "share.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 307
+    },
+    {
+      "host": "staging-info.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 301
+    },
+    {
+      "host": "status.coindcx.com",
+      "ip": "18.161.229.9",
+      "status": 200
+    },
+    {
+      "host": "support.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 200
+    },
+    {
+      "host": "trade-chart.coindcx.com",
+      "ip": "104.18.13.22",
+      "status": 200
+    },
+    {
+      "host": "www.coindcx.com",
+      "ip": "104.18.12.22",
+      "status": 301
+    }
+  ],
+  "fuzz_results": [
+    {
+      "path": "robots.txt",
+      "status": 200
+    },
+    {
+      "path": ".git",
+      "status": 403
+    },
+    {
+      "path": ".env",
+      "status": 403
+    },
+    {
+      "path": ".svn",
+      "status": 403
+    },
+    {
+      "path": ".htaccess",
+      "status": 403
+    },
+    {
+      "path": "wp-config.php",
+      "status": 403
+    },
+    {
+      "path": "admin",
+      "status": 200
+    },
+    {
+      "path": "login",
+      "status": 200
+    },
+    {
+      "path": "api",
+      "status": 301
+    },
+    {
+      "path": "api/v1",
+      "status": 404
+    },
+    {
+      "path": "config",
+      "status": 200
+    },
+    {
+      "path": "backup",
+      "status": 200
+    },
+    {
+      "path": "sitemap.xml",
+      "status": 200
+    },
+    {
+      "path": "health",
+      "status": 200
+    },
+    {
+      "path": "status",
+      "status": 200
+    },
+    {
+      "path": "version",
+      "status": 200
+    },
+    {
+      "path": "swagger",
+      "status": 200
+    },
+    {
+      "path": "swagger-ui",
+      "status": 200
+    },
+    {
+      "path": "graphql",
+      "status": 200
+    },
+    {
+      "path": "manifest.json",
+      "status": 200
+    },
+    {
+      "path": "static",
+      "status": 200
+    },
+    {
+      "path": "assets",
+      "status": 301
+    },
+    {
+      "path": "auth",
+      "status": 200
+    },
+    {
+      "path": "auth/login",
+      "status": 200
+    },
+    {
+      "path": ".well-known/security.txt",
+      "status": 200
+    }
+  ]
+}

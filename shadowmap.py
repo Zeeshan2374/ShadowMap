@@ -388,21 +388,17 @@ def step1_dns_resolution(hostname):
 # Step 2 - Subdomain enumeration via crt.sh
 # --------------------------------------------------------------------------
 
-def step2_crtsh_enum(root_domain, timeout=15):
-    section(f"crt.sh subdomain enumeration for *.{root_domain}", 2)
+def _source_crtsh(root_domain, timeout):
+    """crt.sh (Certificate Transparency log search, sectigo-backed)."""
     url = f"https://crt.sh/?q=%25.{root_domain}&output=json"
-    print(f"  Querying {C.GREY}{url}{C.RESET} ...")
     status, _, body = http_get(url, timeout=timeout)
-
     if status != 200 or not body:
-        print(f"  {C.RED}crt.sh query failed (status={status}). Skipping.{C.RESET}")
-        return []
+        return None, f"status={status}"
 
     try:
         data = json.loads(body.decode("utf-8", errors="ignore"))
     except json.JSONDecodeError:
-        print(f"  {C.RED}Could not parse crt.sh JSON response.{C.RESET}")
-        return []
+        return None, "invalid JSON"
 
     names = set()
     for entry in data:
@@ -413,10 +409,105 @@ def step2_crtsh_enum(root_domain, timeout=15):
                 line = line[2:]
             if line.endswith(root_domain):
                 names.add(line)
+    return names, None
 
-    names.add(root_domain)
-    print(f"  {C.GREEN}Found {len(names)} unique hostnames.{C.RESET}")
-    return sorted(names)
+
+def _source_certspotter(root_domain, timeout):
+    """Cert Spotter public API (SSLMate) - another CT-log aggregator,
+    independent infrastructure from crt.sh, so it often stays up when
+    crt.sh is down."""
+    url = (
+        "https://api.certspotter.com/v1/issuances"
+        f"?domain={root_domain}&include_subdomains=true&expand=dns_names"
+    )
+    status, _, body = http_get(url, timeout=timeout)
+    if status != 200 or not body:
+        return None, f"status={status}"
+
+    try:
+        data = json.loads(body.decode("utf-8", errors="ignore"))
+    except json.JSONDecodeError:
+        return None, "invalid JSON"
+
+    names = set()
+    for entry in data:
+        for dns_name in entry.get("dns_names", []):
+            line = dns_name.strip().lower()
+            if line.startswith("*."):
+                line = line[2:]
+            if line.endswith(root_domain):
+                names.add(line)
+    return names, None
+
+
+def _source_hackertarget(root_domain, timeout):
+    """HackerTarget hostsearch - DNS-based passive subdomain lookup
+    (different method than CT logs, so it also catches hosts that never
+    got a public cert). Rate-limited on the free tier, so failures here
+    are expected/normal, not necessarily an outage."""
+    url = f"https://api.hackertarget.com/hostsearch/?q={root_domain}"
+    status, _, body = http_get(url, timeout=timeout)
+    if status != 200 or not body:
+        return None, f"status={status}"
+
+    text = body.decode("utf-8", errors="ignore").strip()
+    if "error" in text.lower() or "API count exceeded" in text:
+        return None, text.splitlines()[0][:80]
+
+    names = set()
+    for line in text.splitlines():
+        host = line.split(",")[0].strip().lower()
+        if host.endswith(root_domain):
+            names.add(host)
+    return names, None
+
+
+def step2_crtsh_enum(root_domain, timeout=15):
+    """
+    Passive subdomain enumeration using multiple independent public
+    sources. Queries each source, merges + dedupes the results, and
+    reports per-source status so you can see which ones actually
+    responded. Any source can fail (down, rate-limited, etc.) without
+    stopping the scan - we just proceed with whatever the others found.
+    """
+    section(f"Passive subdomain enumeration for *.{root_domain}", 2)
+
+    sources = [
+        ("crt.sh", _source_crtsh),
+        ("Cert Spotter", _source_certspotter),
+        ("HackerTarget", _source_hackertarget),
+    ]
+
+    all_names = set()
+    source_summary = []  # (name, count_or_None, error_or_None)
+
+    for label, fn in sources:
+        print(f"  Querying {C.GREY}{label}{C.RESET} ...", end=" ")
+        sys.stdout.flush()
+        try:
+            names, err = fn(root_domain, timeout)
+        except Exception as e:
+            names, err = None, str(e)[:80]
+
+        if names is None:
+            print(f"{C.RED}failed{C.RESET} {C.GREY}({err}){C.RESET}")
+            source_summary.append((label, None, err))
+        else:
+            print(f"{C.GREEN}ok{C.RESET} {C.GREY}({len(names)} names){C.RESET}")
+            source_summary.append((label, len(names), None))
+            all_names |= names
+
+    all_names.add(root_domain)
+
+    working = [s for s in source_summary if s[1] is not None]
+    if not working:
+        print(f"\n  {C.RED}All sources failed/unreachable. "
+              f"Falling back to just the root domain.{C.RESET}")
+    else:
+        print(f"\n  {C.GREEN}Merged + de-duplicated: {len(all_names)} unique "
+              f"hostnames from {len(working)}/{len(sources)} source(s).{C.RESET}")
+
+    return sorted(all_names)
 
 
 # --------------------------------------------------------------------------

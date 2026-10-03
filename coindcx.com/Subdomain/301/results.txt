@@ -1,0 +1,4 @@
+go.coindcx.com , 104.18.12.22
+pro.coindcx.com , 104.18.13.22
+staging-info.coindcx.com , 104.18.12.22
+www.coindcx.com , 104.18.12.22

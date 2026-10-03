@@ -1,0 +1,3 @@
+blog.coindcx.com , 104.18.12.22
+helpdesk.coindcx.com , 169.148.148.126
+maintenance.coindcx.com , 104.18.13.22
