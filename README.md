@@ -10,6 +10,23 @@ JSON and HTML reports.
 
 ---
 
+## 🎥 VIEH Group | Walkthrough and Guidance Video
+
+Watch the walkthrough for a demonstration of ShadowMap's setup, reconnaissance workflow, and generated reports.
+
+**[▶ Watch / Download the ShadowMap Walkthrough Video](https://github.com/Zeeshan2374/ShadowMap/releases/tag/v1.0.0)**
+
+The video covers:
+- Tool setup and execution
+- DNS resolution and subdomain enumeration
+- HTTP status checking
+- Directory and path enumeration
+- Understanding JSON, HTML, and text reports
+
+> **Authorized use only:** Test systems you own or have explicit permission to assess. HTTP status codes alone do not establish that a resource is vulnerable.
+
+---
+
 ## ⚠️ Authorized Use Only
 
 This tool performs **read-only, unauthenticated** requests only — no credential
